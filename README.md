@@ -9,6 +9,7 @@ url-for-client-registration=http://localhost:8010/eureka
 Eureka Client:
 name=f1-drivers
 port=random
+gateway.ip in application.properties should be of Spring Cloud API Gateway machine
 
 Spring Cloud API Gateway:
 name=f1-spring-cloud-api-gateway
