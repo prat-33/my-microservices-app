@@ -8,4 +8,5 @@ import com.practice.microservices.entity.DriverEntity;
 @Repository
 public interface DriversRepo extends CrudRepository<DriverEntity, Integer> {
 
+	DriverEntity findByEmail(String email);
 }
