@@ -14,3 +14,16 @@ gateway.ip in application.properties should be of Spring Cloud API Gateway machi
 Spring Cloud API Gateway:
 name=f1-spring-cloud-api-gateway
 port=8082
+
+Spring Cloud Config Server:
+name=f1-spring-cloud-config-server
+port=8012
+url-for-client-registration=http://localhost:8012
+POST: localhost:8012/actuator/busrefresh
+
+RabbitMQ:
+sudo systemctl start rabbitmq-server
+sudo systemctl status  rabbitmq-server
+sudo systemctl stop rabbitmq-server
+http://localhost:15672/
+Username, Password: guest
