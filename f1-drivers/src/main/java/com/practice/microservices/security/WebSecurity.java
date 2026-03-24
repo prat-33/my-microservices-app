@@ -43,7 +43,8 @@ public class WebSecurity {
 		
 		httpSecurity.authorizeHttpRequests(auth -> auth.requestMatchers("/users/**")
 				.access(new WebExpressionAuthorizationManager("hasIpAddress('" + environment.getProperty("gateway.ip") + "')"))
-				.requestMatchers("/h2-console/**").permitAll())
+				.requestMatchers("/h2-console/**").permitAll()
+				.requestMatchers("/actuator/**").permitAll())
 		.addFilter(authenticationFilter)
 		.authenticationManager(authenticationManager)
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
