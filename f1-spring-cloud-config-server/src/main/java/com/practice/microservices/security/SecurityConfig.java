@@ -1,0 +1,54 @@
+package com.practice.microservices.security;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+public class SecurityConfig {
+
+	private Environment environment; 
+	
+	public SecurityConfig(Environment environment) {
+		this.environment = environment;
+	}
+	
+	@Bean
+	SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+		httpSecurity.authorizeRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/actuator/busrefresh").hasRole("ADMIN")
+				.anyRequest().authenticated())
+		.csrf(csrf -> csrf.ignoringRequestMatchers("/actuator/busrefresh"))
+		.httpBasic(Customizer.withDefaults());
+		
+		return httpSecurity.build();
+	}
+	
+	@Bean
+	InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
+		UserDetails admin = User.withUsername(environment.getProperty("spring.security.user.name"))
+				.password(passwordEncoder.encode(environment.getProperty("spring.security.user.password")))
+				.roles(environment.getProperty("spring.security.user.roles"))
+				.build();
+		
+		UserDetails client = User.withUsername(environment.getProperty("spring.security.client.user.name"))
+				.password(passwordEncoder.encode(environment.getProperty("spring.security.client.user.password")))
+				.roles(environment.getProperty("spring.security.client.user.roles"))
+				.build();
+		
+		return new InMemoryUserDetailsManager(admin, client);
+	}
+	
+	@Bean
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+}
