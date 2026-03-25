@@ -24,9 +24,11 @@ public class SecurityConfig {
 	
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.authorizeRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/actuator/busrefresh").hasRole("ADMIN")
+		httpSecurity.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/actuator/busrefresh").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.POST, "/encrypt").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.POST, "/decrypt").hasRole("ADMIN")
 				.anyRequest().authenticated())
-		.csrf(csrf -> csrf.ignoringRequestMatchers("/actuator/busrefresh"))
+		.csrf(csrf -> csrf.ignoringRequestMatchers("/actuator/busrefresh", "/encrypt", "/decrypt"))
 		.httpBasic(Customizer.withDefaults());
 		
 		return httpSecurity.build();
