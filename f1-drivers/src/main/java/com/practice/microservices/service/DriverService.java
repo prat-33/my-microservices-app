@@ -8,4 +8,5 @@ public interface DriverService extends UserDetailsService {
 
 	DriverDto createUser(DriverDto driverDetails);
 	DriverDto getUserDetailsByEmail(String email);
+	DriverDto getUserByDriverId(String driverId);
 }

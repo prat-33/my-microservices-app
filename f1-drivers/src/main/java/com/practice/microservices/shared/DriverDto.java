@@ -1,5 +1,9 @@
 package com.practice.microservices.shared;
 
+import java.util.List;
+
+import com.practice.microservices.model.AlbumResponseModel;
+
 public class DriverDto {
 
 	private String name;
@@ -7,6 +11,8 @@ public class DriverDto {
 	private String userId;
 	private String password;
 	private String encryptedPassword;
+	private List<AlbumResponseModel> albums;
+	
 	public String getName() {
 		return name;
 	}
@@ -36,5 +42,11 @@ public class DriverDto {
 	}
 	public void setEncryptedPassword(String encryptedPassword) {
 		this.encryptedPassword = encryptedPassword;
+	}
+	public List<AlbumResponseModel> getAlbums() {
+		return albums;
+	}
+	public void setAlbums(List<AlbumResponseModel> albums) {
+		this.albums = albums;
 	}
 }

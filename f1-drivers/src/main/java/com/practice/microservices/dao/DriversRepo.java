@@ -9,4 +9,5 @@ import com.practice.microservices.entity.DriverEntity;
 public interface DriversRepo extends CrudRepository<DriverEntity, Integer> {
 
 	DriverEntity findByEmail(String email);
+	DriverEntity findByUserId(String driverId);
 }
